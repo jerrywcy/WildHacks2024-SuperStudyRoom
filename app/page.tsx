@@ -5,29 +5,20 @@ import { useState } from "react"
 import dayjs, { Dayjs } from "dayjs"
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { Unstable_NumberInput as NumberInput } from '@mui/base/Unstable_NumberInput';
-import { Button, Input, Select, TextField } from '@mui/material';
-import axios from "axios"
+import { Button, TextField } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 
 
-export default async function Home() {
+export default function Home() {
+    const router = useRouter();
     const [date, setDate] = useState<Dayjs>(dayjs());
     const [availableTimeRange, setAvailableTimeRage] = useState<{ start: Dayjs, end: Dayjs }>({ start: dayjs(), end: dayjs() })
     const [intervalLength, setIntervalLength] = useState<number>(0);
     const [capacity, setCapacity] = useState<number>(1);
 
-    async function onConfirm() {
-        const result = await axios.get("/api/study_room/search", {
-            params: {
-                date: date.toDate(),
-                start: availableTimeRange.start.toDate(),
-                end: availableTimeRange.end.toDate(),
-                time: intervalLength,
-                capacity
-            }
-        })
-        alert(result.data)
+    function onConfirm() {
+        router.push("/search");
     }
 
     return (
