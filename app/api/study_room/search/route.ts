@@ -23,8 +23,10 @@ export function GET(request: NextRequest) {
   if (!timeParam) time = undefined;
   else time = Number(timeParam);
 
-  const capacityParam = searchParams.get("time");
+  const capacityParam = searchParams.get("capacity");
   let capacity: number | undefined;
   if (!capacityParam) capacity = undefined;
   else capacity = Number(capacityParam);
+
+  return Response.json(`${date} ${start} ${end} ${time} ${capacity}`);
 }
