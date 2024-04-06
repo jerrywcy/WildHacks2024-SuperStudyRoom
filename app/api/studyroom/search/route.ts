@@ -1,6 +1,7 @@
+import { StudyRoom } from "@prisma/client";
 import { NextRequest } from "next/server";
 
-export function GET(request: NextRequest) {
+export function GET(request: NextRequest): StudyRoom["Id"][] {
   const searchParams = request.nextUrl.searchParams;
 
   const dateParam = searchParams.get("date");
@@ -28,5 +29,5 @@ export function GET(request: NextRequest) {
   if (!capacityParam) capacity = undefined;
   else capacity = Number(capacityParam);
 
-  return Response.json(`${date} ${start} ${end} ${time} ${capacity}`);
+  return [];
 }
