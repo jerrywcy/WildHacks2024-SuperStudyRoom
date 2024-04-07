@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json("Please provide password.", { status: 400 });
   const user = await prisma.account.findUnique({
     where: {
-      user_name: username,
+      username: username,
     },
   });
   if (user === null) {

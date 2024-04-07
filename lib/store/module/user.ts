@@ -5,7 +5,7 @@ import { removeUser, setUser } from "../reducer/user";
 
 export function useUserStore() {
   const state = useAppSelector((state) => state.user);
-  const store = makeStore();
+  const store = makeStore().store;
 
   return {
     state,
@@ -15,7 +15,7 @@ export function useUserStore() {
     setUser: (user: Account) => {
       store.dispatch(setUser(user));
     },
-    removeUser: (user: Account) => {
+    removeUser: () => {
       store.dispatch(removeUser());
     },
   };

@@ -1,12 +1,13 @@
 'use client'
 
-import { Button, TextField } from "@mui/material";
 import { useCallback, useState } from "react";
 import axios from "axios"
-import { useUserStore } from "@/lib/module/user";
+import { useUserStore } from "@/lib/store/module/user";
 import { Account } from "@prisma/client";
 import { toast } from "react-hot-toast"
 import { useRouter } from "next/navigation";
+import { Button, Input } from "@nextui-org/react";
+import { SHA256 } from "../utils";
 
 export default function Login() {
     const userStore = useUserStore();
@@ -15,10 +16,9 @@ export default function Login() {
     const [password, setPassword] = useState<string>("");
 
     const handleLogin = useCallback(async () => {
-        console.log("aha")
         try {
             const { data } = await axios.post<Account>("/api/user/login", {
-                username, password
+                username, password: SHA256(password)
             })
             userStore.setUser(data);
             router.push("/")
@@ -28,20 +28,26 @@ export default function Login() {
         }
     }, [username, password]);
 
-    return <div>
-        <TextField
+    return <main className="flex min-h-screen flex-col items-center justify-between p-24 min-w-4">
+        <h1> Login </h1>
+        <Input
             label="User Name"
-            onChange={(evt) => setUsername(evt.target.value)}
+            onValueChange={setUsername}
             required={true}
+            isClearable={true}
+            onClear={() => {
+                setUsername("");
+                setPassword("");
+            }}
         />
-        <TextField
+        <Input
             label="Password"
             type="password"
-            onChange={(evt) => setPassword(evt.target.value)}
+            onValueChange={setPassword}
             required={true}
         />
         <Button onClick={handleLogin}>
             Login
         </Button>
-    </div>
+    </main>
 }

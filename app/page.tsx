@@ -1,74 +1,103 @@
 'use client'
 
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useState } from "react"
-import dayjs, { Dayjs } from "dayjs"
-import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { Button, TextField } from '@mui/material';
+import { useMemo, useState } from "react"
+import dayjs from "dayjs"
 import { useRouter } from 'next/navigation';
-
-
+import { useSearchStore } from '@/lib/store/module/search';
+import { Button, Input } from "@nextui-org/react";
+import { parseDate } from "chrono-node"
 
 export default function Home() {
     const router = useRouter();
-    const [date, setDate] = useState<Dayjs>(dayjs());
-    const [availableTimeRange, setAvailableTimeRage] = useState<{ start: Dayjs, end: Dayjs }>({ start: dayjs(), end: dayjs() })
-    const [intervalLength, setIntervalLength] = useState<number>(0);
-    const [capacity, setCapacity] = useState<number>(1);
+    const searchStore = useSearchStore();
+    const [date, setDate] = useState<string>(dayjs().format("YYYY-MM-DD"));
+    const [start, setStart] = useState<string>(dayjs().format("HH:mm:ss"));
+    const [end, setEnd] = useState<string>(dayjs().add(5, "hour").format("HH:mm:ss"));
+    const [time, setTime] = useState<string>("1");
+    const [capacity, setCapacity] = useState<string>("1");
+
+    const isDateInvalid = useMemo(() => {
+        return parseDate(date) === null;
+    }, [date])
+
+    const isStartInvalid = useMemo(() => {
+        const startTime = parseDate(start)
+        const endTime = parseDate(end)
+        return startTime === null ||
+            (endTime !== null && startTime.getTime() >= endTime.getTime());
+    }, [start, end])
+
+    const isEndInvalid = useMemo(() => {
+        const startTime = parseDate(start)
+        const endTime = parseDate(end)
+        return endTime === null ||
+            (startTime !== null && startTime.getTime() >= endTime.getTime());
+    }, [end, start])
+
+    const isTimeInvalid = useMemo(() => {
+        return isNaN(Number(time)) || Number(time) <= 0.01;
+    }, [end])
+
+    const isCapacityInvalid = useMemo(() => {
+        return isNaN(Number(capacity)) || Number(capacity) <= 0 || !Number.isInteger(Number(capacity));
+    }, [end])
 
     function onConfirm() {
-        router.push("/search");
+        if (isDateInvalid || isStartInvalid || isEndInvalid || isTimeInvalid || isCapacityInvalid) {
+            return;
+        }
+        searchStore.setSearch({
+            date: parseDate(date) as Date,
+            start: parseDate(start) as Date,
+            end: parseDate(end) as Date,
+            time: Number(time),
+            capacity: capacity ? Number(capacity) : undefined
+        })
+        router.push(`/search`);
     }
 
-    return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <main className="flex min-h-screen items-center justify-between p-24">
-                <DatePicker
-                    label="Date"
-                    value={date}
-                    onChange={(date) => {
-                        if (date) setDate(date)
-                    }}
-                />
-                <TimePicker
-                    label="Available time start"
-                    value={availableTimeRange.start}
-                    onChange={(time) => {
-                        if (time) setAvailableTimeRage({
-                            ...availableTimeRange,
-                            start: time
-                        })
-                    }}
-                />
-                <TimePicker
-                    label="Available time end"
-                    value={availableTimeRange.end}
-                    onChange={(time) => {
-                        if (time) setAvailableTimeRage({
-                            ...availableTimeRange,
-                            end: time
-                        })
-                    }}
-                />
-                <TextField
-                    label="Time"
-                    type="number"
-                    defaultValue={0}
-                    onChange={(evt) => {
-                        if (evt) setIntervalLength(Number(evt.target.value))
-                    }}
-                />
-                <TextField
-                    label="Capacity"
-                    type="number"
-                    defaultValue={1}
-                    onChange={(evt) => {
-                        if (evt) setCapacity(Number(evt.target.value))
-                    }}
-                />
-                <Button variant="contained" onClick={onConfirm}>Confirm</Button>
-            </main>
-        </LocalizationProvider>
-    );
+    return <main className="flex min-h-screen items-center justify-between p-24">
+        <Input
+            autoFocus
+            label="Date"
+            value={date}
+            onValueChange={setDate}
+            isInvalid={isDateInvalid}
+            color={isDateInvalid ? "danger" : "success"}
+            errorMessage={isDateInvalid && "Please enter valid date"}
+        />
+        <Input
+            label="Start Time"
+            value={start}
+            onValueChange={setStart}
+            isInvalid={isStartInvalid}
+            color={isStartInvalid ? "danger" : "success"}
+            errorMessage={isStartInvalid && "Please enter valid start time"}
+        />
+        <Input
+            label="End Time"
+            value={end}
+            onValueChange={setEnd}
+            isInvalid={isEndInvalid}
+            color={isEndInvalid ? "danger" : "success"}
+            errorMessage={isEndInvalid && "Please enter valid end time"}
+        />
+        <Input
+            label="Interval Length(h)"
+            value={time}
+            onValueChange={setTime}
+            isInvalid={isTimeInvalid}
+            color={isTimeInvalid ? "danger" : "success"}
+            errorMessage={isTimeInvalid && "Please enter valid end time"}
+        />
+        <Input
+            label="Capacity"
+            value={capacity}
+            onValueChange={setCapacity}
+            isInvalid={isCapacityInvalid}
+            color={isCapacityInvalid ? "danger" : "success"}
+            errorMessage={isCapacityInvalid && "Please enter valid end time"}
+        />
+        <Button onClick={onConfirm}>Confirm</Button>
+    </main>
 }

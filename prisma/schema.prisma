@@ -1,59 +1,62 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 model Account {
-  user_name      String      @id
-  password   String   @unique
-  role    Role   
+    username     String        @id
+    password     String        @unique
+    role         Role
+    reservations Reservation[]
 }
 
 model Library {
-  Id     Int    @id @default(autoincrement())
-  name       String         
-  location      String
-  photo     String
-  desc String
-  study_rooms StudyRoom[]
+    id          Int         @id @default(autoincrement())
+    name        String
+    location    String
+    photo       String
+    desc        String
+    study_rooms StudyRoom[]
 }
 
 model StudyRoom {
-  Id     Int    @id @default(autoincrement())
-  Lib_Id     Int
-  Lib     Library    @relation(fields: [Lib_Id], references: [Id])
-  Capacity   Int
-  time_limit   Int
-  restrictions Restriction[]
-  reservations Reservation[]
+    id           Int           @id @default(autoincrement())
+    name         String
+    library_id   Int
+    library      Library       @relation(fields: [library_id], references: [id])
+    capacity     Int
+    time_limit   Int
+    restrictions Restriction[]
+    reservations Reservation[]
 }
 
 model Restriction {
-    StudyroomId Int
-    Studyroom StudyRoom @relation(fields: [StudyroomId], references: [Id])
-    Id Int @id @default(autoincrement())
-    Open DateTime @db.Time(0)
-    Close DateTime @db.Time(0)
-    Date DateTime @db.Date
-    Repetition RestrictionRepetition
+    study_room_id Int
+    study_room    StudyRoom             @relation(fields: [study_room_id], references: [id])
+    id            Int                   @id @default(autoincrement())
+    open          DateTime              @db.Time(0)
+    close         DateTime              @db.Time(0)
+    date          DateTime              @db.Date
+    repetition    RestrictionRepetition
 }
 
 model Reservation {
-  AccountId Int
-  StudyRoomId Int
-  StudyRoom StudyRoom @relation(fields: [StudyRoomId], references: [Id])
-  Start DateTime
-  End DateTime
-  @@unique([AccountId, StudyRoomId])
+    username      String
+    account       Account   @relation(fields: [username], references: [username])
+    study_room_id Int
+    study_room    StudyRoom @relation(fields: [study_room_id], references: [id])
+    start         DateTime
+    end           DateTime
+
+    @@unique([username, study_room_id, start, end])
 }
 
-
-
 enum RestrictionRepetition {
+    DAY
     WEEK
     MONTH
     YEAR
@@ -61,9 +64,6 @@ enum RestrictionRepetition {
 }
 
 enum Role {
-  USER
-  ADMIN
+    USER
+    ADMIN
 }
-
-
-

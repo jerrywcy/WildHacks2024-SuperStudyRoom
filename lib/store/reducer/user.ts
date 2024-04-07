@@ -14,7 +14,7 @@ const userSlice = createSlice({
     setUser(state, action: PayloadAction<Account>) {
       state.currentUser = action.payload;
     },
-    removeUser(state, _action: PayloadAction<undefined>) {
+    removeUser(state) {
       state.currentUser = undefined;
     },
   },
