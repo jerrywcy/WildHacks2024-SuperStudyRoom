@@ -28,10 +28,13 @@ model StudyRoom {
   Lib     Library    @relation(fields: [Lib_Id], references: [Id])
   Capacity   Int
   time_limit   Int
+  restrictions Restriction[]
   reservations Reservation[]
 }
 
 model Restriction {
+    StudyroomId Int
+    Studyroom StudyRoom @relation(fields: [StudyroomId], references: [Id])
     Id Int @id @default(autoincrement())
     Open DateTime @db.Time(0)
     Close DateTime @db.Time(0)
@@ -48,6 +51,8 @@ model Reservation {
   @@unique([AccountId, StudyRoomId])
 }
 
+
+
 enum RestrictionRepetition {
     WEEK
     MONTH
@@ -59,5 +64,6 @@ enum Role {
   USER
   ADMIN
 }
+
 
 
