@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
         //first check time == undefined
         if (resvdata[i + 1].Start.getTime() - resvdata[i].End.getTime() >= time * 3600 * 1000
           && resvdata[i + 1].Start.getTime() - start.getTime() >= time * 3600 * 1000
-          && resvdata[i].End.getTime() - end.getTime() >= time * 3600 * 1000) {
+          && end.getTime() - resvdata[i].End.getTime() >= time * 3600 * 1000) {
             output.push(room); 
             break;
         }
