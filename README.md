@@ -20,17 +20,36 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Introduction
 
-To learn more about Next.js, take a look at the following resources:
+Our project focuses on unifying the university library system and simplyfying studyroom reservation process, aiming to improve the productivity and study experiences of university students. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Account Management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+We use account registration to hold reservation records and to manage available time periods of studyrooms of different libaries. 
 
-## Deploy on Vercel
+## Reservation Process
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Dashboard
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The dashboard shows all libraries with brief information and available studyrooms with current reservations. 
+
+### Search Page
+
+On the Search page, you can include your preferences including:
+
+- date
+- time interval
+- room capacity
+
+After you enter all your preferences, confirm and then you will be directed to the reservation page.
+
+### Reservation Page
+
+Detailed demonstration of rooms with time periods you can reserve
+
+Click on the reserve button to reserve a studyroom for time you like. 
+
+After reservation succeeds, your reservation will be saved to your account.
+
+## 
