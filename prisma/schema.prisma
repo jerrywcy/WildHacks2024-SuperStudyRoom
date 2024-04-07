@@ -28,6 +28,7 @@ model StudyRoom {
   Lib     Library    @relation(fields: [Lib_Id], references: [Id])
   Capacity   Int
   time_limit   Int
+  reservations Reservation[]
 }
 
 model Restriction {
@@ -36,6 +37,15 @@ model Restriction {
     Close DateTime @db.Time(0)
     Date DateTime @db.Date
     Repetition RestrictionRepetition
+}
+
+model Reservation {
+  AccountId Int
+  StudyRoomId Int
+  StudyRoom StudyRoom @relation(fields: [StudyRoomId], references: [Id])
+  Start DateTime
+  End DateTime
+  @@unique([AccountId, StudyRoomId])
 }
 
 enum RestrictionRepetition {
