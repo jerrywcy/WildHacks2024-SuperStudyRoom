@@ -1,3 +1,4 @@
+import { prisma } from "@/app/consts";
 import { PrismaClient, StudyRoom } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +15,6 @@ export async function GET(request: NextRequest) {
   if (countParam) count = Number(countParam);
   else count = undefined;
 
-  const prisma = new PrismaClient();
   let list: StudyRoom[] = [];
   if (page && count)
     list = await prisma.studyRoom.findMany({

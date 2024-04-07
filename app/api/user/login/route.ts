@@ -1,9 +1,9 @@
+import { prisma } from "@/app/consts";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const { username, password } = await request.json();
-  const prisma = new PrismaClient();
   if (username === undefined)
     return NextResponse.json("Please provide username.", { status: 400 });
   if (password === undefined)

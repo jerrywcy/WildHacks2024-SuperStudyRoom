@@ -2,6 +2,7 @@ import { Interval } from "@/lib/types";
 import { getDateByTimestamp } from "@/app/utils";
 import { PrismaClient, Restriction, StudyRoom } from "@prisma/client";
 import dayjs from "dayjs";
+import { prisma } from "@/app/consts";
 
 export async function getOpenIntervalOnDate(
   studyroom: StudyRoom,
@@ -9,7 +10,6 @@ export async function getOpenIntervalOnDate(
   restrictions?: Restriction[],
 ): Promise<Interval> {
   date = getDateByTimestamp(date);
-  const prisma = new PrismaClient();
   if (!restrictions)
     restrictions = await prisma.restriction.findMany({
       where: {

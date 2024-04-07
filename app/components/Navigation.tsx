@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useUserStore } from "@/lib/store/module/user";
 import { useRouter } from "next/navigation";
 import ConfirmLogoutDialog from "./dialog/ConfirmLogoutDialog";
-import { Account } from "@prisma/client";
+import { $Enums, Account } from "@prisma/client";
 
 export default function Navigation() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,20 +31,6 @@ export default function Navigation() {
                         <CalendarRange />
                         <p className="font-bold text-inherit">Super Study Room</p>
                     </NavbarBrand>
-                </NavbarContent>
-                <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                    <NavbarItem>
-                        <Link color="foreground" href="/">
-                            Search
-                        </Link>
-                    </NavbarItem>
-                    {user &&
-                        <NavbarItem>
-                            <Link color="foreground" href="/reservations">
-                                Reservations
-                            </Link>
-                        </NavbarItem>
-                    }
                 </NavbarContent>
                 {user === undefined ?
                     <NavbarContent justify="end">
@@ -78,6 +64,9 @@ export default function Navigation() {
                                 else if (key === "logout") {
                                     setIsOpen(true)
                                 }
+                                else if (key === "reservations") {
+                                    router.push("/reservations")
+                                }
                             }}
                             closeOnSelect
                         >
@@ -85,8 +74,13 @@ export default function Navigation() {
                                 <p className="font-semibold">Signed in as</p>
                                 <p className="font-semibold">{user.username}</p>
                             </DropdownItem>
-                            <DropdownItem key="dashboard">
-                                Dashboard
+                            {user.role === $Enums.Role.ADMIN ?
+                                <DropdownItem key="dashboard">
+                                    Dashboard
+                                </DropdownItem> : <></>
+                            }
+                            <DropdownItem key="reservations">
+                                My Reservations
                             </DropdownItem>
                             <DropdownItem key="logout" color="danger">
                                 Log Out

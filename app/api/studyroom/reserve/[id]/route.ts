@@ -1,3 +1,4 @@
+import { prisma } from "@/app/consts";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,7 +7,6 @@ export async function POST(
   { params }: { params: { id: string } },
 ) {
   const { username, password, start, end } = await request.json();
-  const prisma = new PrismaClient();
 
   const user = await prisma.account.findUnique({
     where: {

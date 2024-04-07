@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
 
 export const WHOLE_DAY = {
@@ -6,3 +7,5 @@ export const WHOLE_DAY = {
 };
 
 export const TIMEZONE = "America/Chicago";
+
+export const prisma = new PrismaClient();

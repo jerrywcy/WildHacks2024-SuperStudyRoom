@@ -2,6 +2,7 @@ import { getOpenIntervalOnDate } from "@/lib/api/getOpenIntervalOnDate";
 import { SearchResult } from "@/lib/types";
 import { diff } from "@/app/utils";
 import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/app/consts";
 
 export async function search(
   date: Date,
@@ -10,7 +11,6 @@ export async function search(
   time: number,
   capacity?: number,
 ): Promise<SearchResult[]> {
-  const prisma = new PrismaClient();
   const rooms = await prisma.studyRoom.findMany();
   const results: SearchResult[] = [];
 

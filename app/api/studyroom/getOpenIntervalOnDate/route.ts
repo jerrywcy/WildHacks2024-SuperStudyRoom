@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { getOpenIntervalOnDate } from "@/lib/api";
 import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/app/consts";
 
 export async function GET(request: NextRequest) {
-  const prisma = new PrismaClient();
   const searchParams = request.nextUrl.searchParams;
 
   const dateParam = searchParams.get("date");
