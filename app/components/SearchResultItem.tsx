@@ -1,6 +1,6 @@
 import { Reservation, StudyRoom } from "@prisma/client";
 import dayjs from "dayjs"
-import { Interval } from "@/app/types";
+import { Interval } from "@/lib/types";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, TableBody, TableCell, TableHeader, TableRow, TableColumn } from "@nextui-org/table";

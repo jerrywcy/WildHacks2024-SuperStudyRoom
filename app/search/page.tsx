@@ -1,6 +1,6 @@
 'use client'
 import { useSearchStore } from "@/lib/store/module/search";
-import { SearchResult } from "../types";
+import { SearchResult } from "@/lib/types";
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import SearchResultItem from "@/app/components/SearchResultItem";

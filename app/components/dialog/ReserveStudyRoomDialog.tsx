@@ -1,8 +1,8 @@
 'use client'
 import { useUserStore } from "@/lib/store/module/user";
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
-import { Account, StudyRoom } from "@prisma/client"
-import axios, { AxiosError } from "axios";
+import { StudyRoom } from "@prisma/client"
+import axios from "axios";
 import { parseDate } from "chrono-node";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";

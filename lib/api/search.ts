@@ -1,5 +1,5 @@
 import { getOpenIntervalOnDate } from "@/lib/api/getOpenIntervalOnDate";
-import { SearchResult } from "@/app/types";
+import { SearchResult } from "@/lib/types";
 import { diff } from "@/app/utils";
 import { PrismaClient } from "@prisma/client";
 

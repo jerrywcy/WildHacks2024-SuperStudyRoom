@@ -12,10 +12,16 @@ const userSlice = createSlice({
   } as State,
   reducers: {
     setUser(state, action: PayloadAction<Account>) {
-      state.currentUser = action.payload;
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
     },
     removeUser(state) {
-      state.currentUser = undefined;
+      return {
+        ...state,
+        currentUser: undefined,
+      };
     },
   },
 });

@@ -5,17 +5,19 @@ import { removeUser, setUser } from "../reducer/user";
 
 export function useUserStore() {
   const state = useAppSelector((state) => state.user);
-  const store = makeStore().store;
+  const { store, persistor } = makeStore();
 
   return {
     state,
     getState: () => {
       return store.getState().user;
     },
-    setUser: (user: Account) => {
+    login: async (user: Account) => {
+      await persistor.purge();
       store.dispatch(setUser(user));
     },
-    removeUser: () => {
+    logout: async () => {
+      await persistor.purge();
       store.dispatch(removeUser());
     },
   };

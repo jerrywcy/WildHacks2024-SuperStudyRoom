@@ -1,4 +1,4 @@
-import { Interval } from "@/app/types";
+import { Interval } from "@/lib/types";
 import { getDateByTimestamp } from "@/app/utils";
 import { PrismaClient, Restriction, StudyRoom } from "@prisma/client";
 import dayjs from "dayjs";

@@ -9,18 +9,18 @@ import { useRouter } from "next/navigation";
 import { Button, Input } from "@nextui-org/react";
 import { SHA256 } from "../utils";
 
-export default function Login() {
+export default function Register() {
     const userStore = useUserStore();
     const router = useRouter();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const handleLogin = useCallback(async () => {
+    const handleRegister = useCallback(async () => {
         try {
-            const { data } = await axios.post<Account>("/api/user/login", {
+            const { data } = await axios.post<Account>("/api/user/register", {
                 username, password: SHA256(password)
             })
-            await userStore.login(data);
+            userStore.login(data);
             router.push("/")
         }
         catch (err: any) {
@@ -46,8 +46,8 @@ export default function Login() {
             onValueChange={setPassword}
             required={true}
         />
-        <Button onClick={handleLogin}>
-            Login
+        <Button onClick={handleRegister}>
+            Register
         </Button>
     </main>
 }

@@ -25,10 +25,13 @@ const searchSlice = createSlice({
   initialState: {} as State,
   reducers: {
     setSearch(state, action: PayloadAction<SerializableSearchFilters>) {
-      state.search = action.payload;
+      return { ...state, search: action.payload };
     },
     removeSearch(state) {
-      state.search = undefined;
+      return {
+        ...state,
+        search: undefined,
+      };
     },
   },
 });
