@@ -74,11 +74,9 @@ export default function Navigation() {
                                 <p className="font-semibold">Signed in as</p>
                                 <p className="font-semibold">{user.username}</p>
                             </DropdownItem>
-                            {user.role === $Enums.Role.ADMIN ?
-                                <DropdownItem key="dashboard">
-                                    Dashboard
-                                </DropdownItem> : <></>
-                            }
+                            <DropdownItem key="dashboard">
+                                Dashboard
+                            </DropdownItem>
                             <DropdownItem key="reservations">
                                 My Reservations
                             </DropdownItem>
